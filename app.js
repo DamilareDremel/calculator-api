@@ -1,6 +1,13 @@
 const express = require('express');
 const app = express();
 
+const cors = require('cors');
+app.use(cors({
+  origin: 'https://simple-calc-6c23.onrender.com',  // Your frontend URL
+  methods: ['POST', 'GET'],
+  allowedHeaders: ['Content-Type']
+}));
+
 // Import the calculate routes
 const calculateRoutes = require('./routes/calculate');
 
