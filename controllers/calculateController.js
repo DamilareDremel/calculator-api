@@ -26,4 +26,50 @@ exports.add = (req, res) => {
     const quotient = num1 / num2;
     res.json({ result: quotient });
   };
-  
+
+// Helper function to round to a specific place value
+function roundToPlace(num, place) {
+  return Math.round(num / place) * place;
+}
+
+// Controller function for rounding to nearest tens
+exports.roundToTens = (req, res) => {
+  const { result } = req.body;
+  const rounded = roundToPlace(result, 10);
+  res.json({ rounded });
+};
+
+// Controller function for rounding to nearest hundreds
+exports.roundToHundreds = (req, res) => {
+  const { result } = req.body;
+  const rounded = roundToPlace(result, 100);
+  res.json({ rounded });
+};
+
+// Controller function for rounding to nearest thousands
+exports.roundToThousands = (req, res) => {
+  const { result } = req.body;
+  const rounded = roundToPlace(result, 1000);
+  res.json({ rounded });
+};
+
+// Controller function for rounding to nearest tenths
+exports.roundToTenths = (req, res) => {
+  const { result } = req.body;
+  const rounded = Math.round(result * 10) / 10;
+  res.json({ rounded });
+};
+
+// Controller function for rounding to nearest hundredths
+exports.roundToHundredths = (req, res) => {
+  const { result } = req.body;
+  const rounded = Math.round(result * 100) / 100;
+  res.json({ rounded });
+};
+
+// Controller function for rounding to nearest thousandths
+exports.roundToThousandths = (req, res) => {
+  const { result } = req.body;
+  const rounded = Math.round(result * 1000) / 1000;
+  res.json({ rounded });
+};
