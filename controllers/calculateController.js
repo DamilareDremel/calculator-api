@@ -1,75 +1,55 @@
-// controllers/calculateController.js
+const calculate = (req, res) => {
+  const { operation } = req.params;
+  const { num1, num2 } = req.body;
 
-exports.add = (req, res) => {
-    const { num1, num2 } = req.body;
-    const sum = num1 + num2;
-    res.json({ result: sum });
-  };
-  
-  exports.subtract = (req, res) => {
-    const { num1, num2 } = req.body;
-    const difference = num1 - num2;
-    res.json({ result: difference });
-  };
-  
-  exports.multiply = (req, res) => {
-    const { num1, num2 } = req.body;
-    const product = num1 * num2;
-    res.json({ result: product });
-  };
-  
-  exports.divide = (req, res) => {
-    const { num1, num2 } = req.body;
-    if (num2 === 0) {
-      return res.status(400).json({ error: "Division by zero is not allowed." });
-    }
-    const quotient = num1 / num2;
-    res.json({ result: quotient });
-  };
+  let result;
 
-// Helper function to round to a specific place value
-function roundToPlace(num, place) {
-  return Math.round(num / place) * place;
-}
+  try {
+      switch (operation) {
+          case 'add':
+              result = num1 + num2;
+              break;
+          case 'subtract':
+              result = num1 - num2;
+              break;
+          case 'multiply':
+              result = num1 * num2;
+              break;
+          case 'divide':
+              if (num2 === 0) {
+                  return res.status(400).json({ error: 'Cannot divide by zero' });
+              }
+              result = num1 / num2;
+              break;
+          case 'nearest-10s':
+              const avg10s = (num1 + num2) / 2;
+              result = Math.round(avg10s / 10) * 10;
+              break;
+          case 'nearest-100s':
+              const avg100s = (num1 + num2) / 2;
+              result = Math.round(avg100s / 100) * 100;
+              break;
+          case 'nearest-1000s':
+              const avg1000s = (num1 + num2) / 2;
+              result = Math.round(avg1000s / 1000) * 1000;
+              break;
+          case 'nearest-10th':
+              result = Math.round((num1 + num2) / 2 * 10) / 10;
+              break;
+          case 'nearest-100th':
+              result = Math.round((num1 + num2) / 2 * 100) / 100;
+              break;
+          case 'nearest-1000th':
+              result = Math.round((num1 + num2) / 2 * 1000) / 1000;
+              break;
+          default:
+              return res.status(400).json({ error: 'Invalid operation' });
+      }
 
-// Controller function for rounding to nearest tens
-exports.roundToTens = (req, res) => {
-  const { result } = req.body;
-  const rounded = roundToPlace(result, 10);
-  res.json({ rounded });
+      res.json({ result });
+  } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
-// Controller function for rounding to nearest hundreds
-exports.roundToHundreds = (req, res) => {
-  const { result } = req.body;
-  const rounded = roundToPlace(result, 100);
-  res.json({ rounded });
-};
-
-// Controller function for rounding to nearest thousands
-exports.roundToThousands = (req, res) => {
-  const { result } = req.body;
-  const rounded = roundToPlace(result, 1000);
-  res.json({ rounded });
-};
-
-// Controller function for rounding to nearest tenths
-exports.roundToTenths = (req, res) => {
-  const { result } = req.body;
-  const rounded = Math.round(result * 10) / 10;
-  res.json({ rounded });
-};
-
-// Controller function for rounding to nearest hundredths
-exports.roundToHundredths = (req, res) => {
-  const { result } = req.body;
-  const rounded = Math.round(result * 100) / 100;
-  res.json({ rounded });
-};
-
-// Controller function for rounding to nearest thousandths
-exports.roundToThousandths = (req, res) => {
-  const { result } = req.body;
-  const rounded = Math.round(result * 1000) / 1000;
-  res.json({ rounded });
-};
+module.exports = calculate;
