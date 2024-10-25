@@ -17,4 +17,12 @@ router.post('/nearest-10th', calculateController.roundToTenths);
 router.post('/nearest-100th', calculateController.roundToHundredths);
 router.post('/nearest-1000th', calculateController.roundToThousandths);
 
+// routes/calculate.js
+
+// New routes for advanced operations
+router.post('/simplify-fraction', calculateController.simplifyToLowestFraction);
+router.post('/to-scientific', calculateController.toScientificNotation);
+router.post('/from-scientific', calculateController.fromScientificNotation);
+
+
 module.exports = router;

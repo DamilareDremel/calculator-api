@@ -5,6 +5,42 @@ function roundToPlace(num, place) {
   return Math.round(num / place) * place;
 }
 
+// controllers/calculateController.js
+
+// Helper function to find the GCD
+function gcd(a, b) {
+  return b ? gcd(b, a % b) : Math.abs(a);
+}
+
+// Simplify to lowest fraction
+exports.simplifyToLowestFraction = (req, res) => {
+  const { result } = req.body;
+  const precision = 1000000; // Adjust for precision
+  const numerator = Math.round(result * precision);
+  const denominator = precision;
+  const divisor = gcd(numerator, denominator);
+  res.json({ simplified: `${numerator / divisor}/${denominator / divisor}` });
+};
+
+// Decimal to Scientific Notation
+exports.toScientificNotation = (req, res) => {
+  const { result } = req.body;
+  const scientific = result.toExponential();
+  res.json({ scientific });
+};
+
+// Scientific Notation to Decimal
+exports.fromScientificNotation = (req, res) => {
+  const { result } = req.body;
+  try {
+    const decimal = Number(result);
+    res.json({ decimal });
+  } catch (error) {
+    res.status(400).json({ error: "Invalid scientific notation." });
+  }
+};
+
+
 exports.add = (req, res) => {
   const { num1, num2 } = req.body;
   const sum = num1 + num2;
