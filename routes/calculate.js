@@ -24,5 +24,7 @@ router.post('/simplify-fraction', calculateController.simplifyToLowestFraction);
 router.post('/to-scientific', calculateController.toScientificNotation);
 router.post('/from-scientific', calculateController.fromScientificNotation);
 
+router.post('/exponent', calculateController.exponent);
+
 
 module.exports = router;

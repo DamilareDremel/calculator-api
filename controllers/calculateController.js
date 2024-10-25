@@ -12,14 +12,26 @@ function gcd(a, b) {
   return b ? gcd(b, a % b) : Math.abs(a);
 }
 
+// Helper function to convert a decimal to a fraction
+function decimalToFraction(decimal) {
+  const precision = 1000000; // Higher precision for accuracy
+  const numerator = Math.round(decimal * precision);
+  const denominator = precision;
+  const divisor = gcd(numerator, denominator);
+  return { numerator: numerator / divisor, denominator: denominator / divisor };
+}
+
 // Simplify to lowest fraction
 exports.simplifyToLowestFraction = (req, res) => {
   const { result } = req.body;
-  const precision = 1000000; // Adjust for precision
-  const numerator = Math.round(result * precision);
-  const denominator = precision;
-  const divisor = gcd(numerator, denominator);
-  res.json({ simplified: `${numerator / divisor}/${denominator / divisor}` });
+
+  // Handle both integer and decimal results
+  if (Number.isInteger(result)) {
+    res.json({ simplified: `${result}/1` });
+  } else {
+    const fraction = decimalToFraction(result);
+    res.json({ simplified: `${fraction.numerator}/${fraction.denominator}` });
+  }
 };
 
 // Decimal to Scientific Notation
@@ -38,6 +50,12 @@ exports.fromScientificNotation = (req, res) => {
   } catch (error) {
     res.status(400).json({ error: "Invalid scientific notation." });
   }
+};
+
+exports.exponent = (req, res) => {
+  const { num1, exponent } = req.body;
+  const result = Math.pow(num1, exponent);
+  res.json({ result });
 };
 
 
