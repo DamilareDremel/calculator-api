@@ -5,60 +5,6 @@ function roundToPlace(num, place) {
   return Math.round(num / place) * place;
 }
 
-// controllers/calculateController.js
-
-// Helper function to find the GCD
-function gcd(a, b) {
-  return b ? gcd(b, a % b) : Math.abs(a);
-}
-
-// Helper function to convert a decimal to a fraction
-function decimalToFraction(decimal) {
-  const precision = 1000000; // Higher precision for accuracy
-  const numerator = Math.round(decimal * precision);
-  const denominator = precision;
-  const divisor = gcd(numerator, denominator);
-  return { numerator: numerator / divisor, denominator: denominator / divisor };
-}
-
-// Simplify to lowest fraction
-exports.simplifyToLowestFraction = (req, res) => {
-  const { result } = req.body;
-
-  // Handle both integer and decimal results
-  if (Number.isInteger(result)) {
-    res.json({ simplified: `${result}/1` });
-  } else {
-    const fraction = decimalToFraction(result);
-    res.json({ simplified: `${fraction.numerator}/${fraction.denominator}` });
-  }
-};
-
-// Decimal to Scientific Notation
-exports.toScientificNotation = (req, res) => {
-  const { result } = req.body;
-  const scientific = result.toExponential();
-  res.json({ scientific });
-};
-
-// Scientific Notation to Decimal
-exports.fromScientificNotation = (req, res) => {
-  const { result } = req.body;
-  try {
-    const decimal = Number(result);
-    res.json({ decimal });
-  } catch (error) {
-    res.status(400).json({ error: "Invalid scientific notation." });
-  }
-};
-
-exports.exponent = (req, res) => {
-  const { num1, exponent } = req.body;
-  const result = Math.pow(num1, exponent);
-  res.json({ result });
-};
-
-
 exports.add = (req, res) => {
   const { num1, num2 } = req.body;
   const sum = num1 + num2;
