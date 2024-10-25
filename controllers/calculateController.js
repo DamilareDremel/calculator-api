@@ -36,35 +36,35 @@ exports.divide = (req, res) => {
 exports.roundToTens = (req, res) => {
   const { result } = req.body;
   const rounded = roundToPlace(result, 10);
-  res.json({ rounded });
+  res.json({ result: rounded });
 };
 
 exports.roundToHundreds = (req, res) => {
   const { result } = req.body;
   const rounded = roundToPlace(result, 100);
-  res.json({ rounded });
+  res.json({ result: rounded });
 };
 
 exports.roundToThousands = (req, res) => {
   const { result } = req.body;
   const rounded = roundToPlace(result, 1000);
-  res.json({ rounded });
+  res.json({ result: rounded });
 };
 
 exports.roundToTenths = (req, res) => {
   const { result } = req.body;
   const rounded = Math.round(result * 10) / 10;
-  res.json({ rounded });
+  res.json({ result: rounded });
 };
 
 exports.roundToHundredths = (req, res) => {
   const { result } = req.body;
   const rounded = Math.round(result * 100) / 100;
-  res.json({ rounded });
+  res.json({ result: rounded });
 };
 
 exports.roundToThousandths = (req, res) => {
   const { result } = req.body;
   const rounded = Math.round(result * 1000) / 1000;
-  res.json({ rounded });
+  res.json({ result: rounded });
 };
